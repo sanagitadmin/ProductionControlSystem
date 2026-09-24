@@ -1,0 +1,20 @@
+﻿@inherits LayoutComponentBase
+
+<div class="app-shell" dir="rtl">
+    <header class="top-bar" role="banner">
+        <a class="brand" href="/" aria-label="صفحه اصلی سامانه کنترل تولید">
+            <span class="brand-mark" aria-hidden="true">PCS</span>
+            <span class="brand-text">سامانه کنترل تولید</span>
+        </a>
+
+        <nav class="top-nav" aria-label="ناوبری اصلی">
+            <a class="top-nav__link top-nav__link--active" href="/">خانه</a>
+            <span class="top-nav__placeholder" aria-disabled="true">فروش؛ به‌زودی</span>
+            <span class="top-nav__placeholder" aria-disabled="true">برنامه‌ریزی؛ به‌زودی</span>
+        </nav>
+    </header>
+
+    <main class="content" role="main">
+        @Body
+    </main>
+</div>

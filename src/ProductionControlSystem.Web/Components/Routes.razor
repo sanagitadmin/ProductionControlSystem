@@ -1,0 +1,15 @@
+﻿<Router AppAssembly="typeof(Program).Assembly">
+    <Found Context="routeData">
+        <RouteView RouteData="routeData" DefaultLayout="typeof(Layout.MainLayout)" />
+        <FocusOnNavigate RouteData="routeData" Selector="h1" />
+    </Found>
+    <NotFound>
+        <LayoutView Layout="typeof(Layout.MainLayout)">
+            <section class="ui-panel ui-state ui-state--empty" aria-live="polite">
+                <h1>صفحه پیدا نشد</h1>
+                <p>مسیر وارد شده در پوسته فعلی سامانه تعریف نشده است.</p>
+                <a class="ui-button" href="/">بازگشت به صفحه اصلی</a>
+            </section>
+        </LayoutView>
+    </NotFound>
+</Router>

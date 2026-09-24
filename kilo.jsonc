@@ -1,0 +1,11 @@
+{
+  "model": "openai/gpt-5.6-terra",
+  "$schema": "https://app.kilo.ai/config.json",
+  "shared_agent_board": true,
+  "instructions": [
+    "AGENTS.md",
+    ".kilo/rules/*.md"
+  ]
+}
+
+

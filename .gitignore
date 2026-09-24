@@ -1,0 +1,22 @@
+# Build output
+bin/
+obj/
+
+# IDE / editor
+.vs/
+*.user
+*.suo
+*.bak
+*.orig
+*.swp
+
+# Environment / secrets
+.env
+.env.*
+
+# Logs and artifacts
+logs/
+artifacts/
+
+# NuGet / packages
+*.nupkg

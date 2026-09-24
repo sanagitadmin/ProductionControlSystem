@@ -73,10 +73,10 @@ Definitions:
 The architect must reject or revise a task if it used a high-cost model or broad context without justification.
 ## Project-pinned model
 
-This project pins each active agent model in `.kilo/agents/*.md`: architect and backend-engineer use `openai/gpt-5.6-terra` with `medium`, frontend-ui uses `openai/gpt-5.6-luna` with `medium`, and housekeeping-free uses `kilo-auto/free` with `low`. `kilo.jsonc` pins the project default to `openai/gpt-5.6-terra`. If Kilo shows a different model in the picker, verify the selected agent file and reload Kilo before starting paid work.
-## Free-model override for simple housekeeping
+This project pins each active agent model in `.kilo/agents/*.md`: architect and backend-engineer use `openai/gpt-5.6-terra` with `medium`, frontend-ui uses `openai/gpt-5.6-luna` with `medium`, and housekeeping-free uses `openai/gpt-5.4-mini` with `low`. `kilo.jsonc` pins the project default to `openai/gpt-5.6-terra`. If Kilo shows a different model in the picker, verify the selected agent file and reload Kilo before starting paid work.
+## Low-cost override for simple housekeeping
 
-For simple, mechanical, low-risk tasks, use a free Kilo Gateway model instead of the paid default models. Examples include:
+For simple, mechanical, low-risk tasks, use the cheapest reliable housekeeping model instead of the default architecture/backend/frontend models. Examples include:
 
 - Git status, branch/remote inspection, commit, push, and sync after approved work
 - Listing changed files
@@ -86,24 +86,24 @@ For simple, mechanical, low-risk tasks, use a free Kilo Gateway model instead of
 - Cleanup recommendations that do not edit source logic
 - Formatting a report from already gathered evidence
 
-Preferred free-model order for these tasks:
+Preferred low-cost model order for these tasks:
 
-1. `kilo-auto/free` as the stable default free router
-2. A specific resolvable free model from the picker, such as NVIDIA free or Laguna free, only after updating the agent config
-3. `nex-agi/nex-n2.5-pro:free` only if Kilo resolves it in this installation
+1. `openai/gpt-5.4-mini` with `low` reasoning as the stable low-cost default
+2. `gpt-5.4-mini-fast` only if the exact model id is verified in Kilo Agent Behaviour
+3. A free Kilo Gateway model only for optional/simple tasks when rate limits are not blocking work
 
 Rules:
 
-- Free-model override is only for `COST_PROFILE: low` housekeeping.
+- Low-cost override is only for `COST_PROFILE: low` housekeeping.
 - Do not use free-model override for database schema, migrations, security, workflow, concurrency, business-rule design, or final review of high-risk work.
-- If the exact free model is unavailable, choose the cheapest available Kilo free model and report it in `MODEL_USED`.
-- The task packet must explicitly say `MODEL_GUIDANCE: use free Kilo Gateway model for housekeeping`.
-- If a free model fails or cannot use required tools reliably, return `BLOCKED` or ask architect to reroute; do not silently escalate to a paid model.
+- If the configured low-cost model is unavailable, stop and report `BLOCKED`; do not silently escalate.
+- The task packet must explicitly say `MODEL_GUIDANCE: use openai/gpt-5.4-mini low for housekeeping unless user changes Agent Behaviour`.
+- If the low-cost model fails or cannot use required tools reliably, return `BLOCKED` or ask architect to reroute; do not silently escalate to a stronger paid model.
 
 
 ## Git/GitHub Sync Policy
 
-This section governs when and how the three-agent team commits and pushes changes. It applies to all agents and is enforced by `housekeeping-free` on a free Kilo Gateway model.
+This section governs when and how the three-agent team commits and pushes changes. It applies to all agents and is enforced by `housekeeping-free` on the configured low-cost housekeeping model.
 
 ### 1. Local commit criteria
 - Commit only after an **architect-approved** task.
@@ -137,8 +137,8 @@ Before any commit or push:
 - Model mismatch: `MODEL_CONFIGURED` ≠ `MODEL_VISIBLE_IN_UI` or `CONFIG_MATCHES_UI: no`.
 
 ### 6. Simple sync work routing
-- All Git status, commit, push, sync, file listing, secret scan, and log formatting **must** use `housekeeping-free` on a **free Kilo Gateway model** (`kilo-auto/free` / `low`).
-- **No paid fallback**. If the free model is unavailable or fails, return `BLOCKED` and ask architect to reroute.
+- All Git status, commit, push, sync, file listing, secret scan, and log formatting **must** use `housekeeping-free` on the **configured low-cost model** (`openai/gpt-5.4-mini` / `low`).
+- **No silent escalation**. If the configured low-cost model is unavailable or fails, return `BLOCKED` and ask architect to reroute.
 
 ### 7. Post-push report fields (required in sync task result)
 - Branch name
@@ -152,8 +152,9 @@ Before any commit or push:
 
 ### 8. Model verification gate (before starting any sync task)
 The sync task must report these fields before proceeding:
-- `MODEL_CONFIGURED`: from agent frontmatter (e.g., `kilo-auto/free` / `low`)
+- `MODEL_CONFIGURED`: from agent frontmatter (e.g., `openai/gpt-5.4-mini` / `low`)
 - `MODEL_VISIBLE_IN_UI`: what Kilo Agent Manager shows for this agent (`unknown` if not visible)
 - `MODEL_USED_REPORTED`: what the runtime reports (`not visible to agent` if hidden)
 - `CONFIG_MATCHES_UI`: `yes` / `no` / `unknown` — mismatch blocks the task
 - If UI visibility is unavailable, record `unknown` — do not guess and do not treat as a match.
+

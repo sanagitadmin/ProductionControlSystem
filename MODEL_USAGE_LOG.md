@@ -18,4 +18,4 @@ Usage entries:
 | 2026-09-24 | CONFIG-BASELINE | system | see table above | see table above | n/a | Project model policy established | n/a | n/a | no | recorded | Agent frontmatter and kilo.jsonc updated |
 | 2026-09-24 | PCS-GIT-001-FIRST-GITHUB-SYNC | housekeeping-free | nex-agi/nex-n2.5-pro:free | low | low | first GitHub sync using free model | not started - model unavailable | not started | no | BLOCKED | Kilo returned Model not found; config changed to kilo-auto/free for retry |
 
-| 2026-09-24T12:21:03Z | PCS-GIT-001-FIRST-GITHUB-SYNC | housekeeping-free | kilo-auto/free | low | low | first GitHub sync using free Kilo Gateway model | not visible to agent | not visible to agent | no | IN PROGRESS | Build succeeded (0 errors), secret scan clean, .gitignore created; git init + commit + push pending |
+| 2026-09-24T12:21:03Z | PCS-GIT-001-FIRST-GITHUB-SYNC | housekeeping-free | kilo-auto/free | low | low | first GitHub sync using free Kilo Gateway model | not visible to agent | not visible to agent | no | DONE | Build 0 errors; secret scan clean; .gitignore created; 37 files staged; initial commit b92f1d1; pushed to origin/main |

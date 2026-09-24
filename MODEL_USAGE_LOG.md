@@ -1,4 +1,4 @@
-# Model Usage Log
+﻿# Model Usage Log
 
 This log records the model policy and reported model usage for project-agent tasks.
 
@@ -17,5 +17,6 @@ Usage entries:
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | 2026-09-24 | CONFIG-BASELINE | system | see table above | see table above | n/a | Project model policy established | n/a | n/a | no | recorded | Agent frontmatter and kilo.jsonc updated |
 | 2026-09-24 | PCS-GIT-001-FIRST-GITHUB-SYNC | housekeeping-free | nex-agi/nex-n2.5-pro:free | low | low | first GitHub sync using free model | not started - model unavailable | not started | no | BLOCKED | Kilo returned Model not found; config changed to kilo-auto/free for retry |
-
 | 2026-09-24T12:21:03Z | PCS-GIT-001-FIRST-GITHUB-SYNC | housekeeping-free | kilo-auto/free | low | low | first GitHub sync using free Kilo Gateway model | not visible to agent | not visible to agent | no | DONE | Build 0 errors; secret scan clean; .gitignore created; 37 files staged; initial commit b92f1d1; pushed to origin/main |
+| 2026-09-24T12:28:33Z | PCS-GIT-002-SYNC-POLICY | housekeeping-free | kilo-auto/free | low | low | record Git/GitHub sync policy in docs | not visible to agent | not visible to agent | no | DONE | Policy section added to cost-and-model-routing.md; log entry added here |
+| 2026-09-24T16:13:44Z | PCS-GIT-003-SYNC-POLICY | housekeeping-free | kilo-auto/free | low | low | commit and push approved policy docs | not visible to agent | not visible to agent | no | IN PROGRESS | Staging approved .kilo/rules/cost-and-model-routing.md and MODEL_USAGE_LOG.md |

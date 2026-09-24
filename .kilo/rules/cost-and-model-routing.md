@@ -101,3 +101,59 @@ Rules:
 - If a free model fails or cannot use required tools reliably, return `BLOCKED` or ask architect to reroute; do not silently escalate to a paid model.
 
 
+## Git/GitHub Sync Policy
+
+This section governs when and how the three-agent team commits and pushes changes. It applies to all agents and is enforced by `housekeeping-free` on a free Kilo Gateway model.
+
+### 1. Local commit criteria
+- Commit only after an **architect-approved** task.
+- Changes must be **meaningful** (not temporary, incomplete, or cosmetic-only).
+- Appropriate **build/test evidence** must exist for the changed scope.
+
+### 2. Push triggers (remote sync checkpoints)
+Push to `origin` only at defined boundaries:
+- Approved phase boundaries (e.g., PCS-002, PCS-003, PCS-004 completion).
+- Before high-risk work: DB schema, migrations, EF/Identity, workflow, authorization.
+- After Kilo/agent/cost-policy configuration changes.
+- User-requested explicit sync.
+- Explicit rollback checkpoint requested by architect.
+
+### 3. No commit/push for
+- Temporary, incomplete, or unapproved changes — report state only.
+- Work that has not passed architect approval.
+
+### 4. Pre-commit/push gate (run by `housekeeping-free`)
+Before any commit or push:
+1. `git status` — confirm clean intent.
+2. Review changed/staged files — scope matches approved task.
+3. Targeted secret scan — explicit patterns for passwords, connection strings, tokens.
+4. Proportionate build/test — `dotnet build` for backend; UI smoke if frontend changed.
+5. `MODEL_USAGE_LOG.md` entry exists for the task being synced.
+
+### 5. Blockers — commit/push must be BLOCKED if any detected
+- Secrets, connection strings, passwords, tokens in staged changes.
+- Temporary/build artifacts (`bin/`, `obj/`, logs, artifacts).
+- Out-of-scope changes not covered by the approved task.
+- Model mismatch: `MODEL_CONFIGURED` ≠ `MODEL_VISIBLE_IN_UI` or `CONFIG_MATCHES_UI: no`.
+
+### 6. Simple sync work routing
+- All Git status, commit, push, sync, file listing, secret scan, and log formatting **must** use `housekeeping-free` on a **free Kilo Gateway model** (`kilo-auto/free` / `low`).
+- **No paid fallback**. If the free model is unavailable or fails, return `BLOCKED` and ask architect to reroute.
+
+### 7. Post-push report fields (required in sync task result)
+- Branch name
+- Remote name
+- Commit hash (short)
+- Push result (success/failure/output)
+- Build/test outcome
+- Secret scan result (clean/findings)
+- Model report: `MODEL_USED`, `REASONING_USED`, `COST_PROFILE`
+- Configuration-policy match: `CONFIG_MATCHES_UI: yes/no/unknown`
+
+### 8. Model verification gate (before starting any sync task)
+The sync task must report these fields before proceeding:
+- `MODEL_CONFIGURED`: from agent frontmatter (e.g., `kilo-auto/free` / `low`)
+- `MODEL_VISIBLE_IN_UI`: what Kilo Agent Manager shows for this agent (`unknown` if not visible)
+- `MODEL_USED_REPORTED`: what the runtime reports (`not visible to agent` if hidden)
+- `CONFIG_MATCHES_UI`: `yes` / `no` / `unknown` — mismatch blocks the task
+- If UI visibility is unavailable, record `unknown` — do not guess and do not treat as a match.
